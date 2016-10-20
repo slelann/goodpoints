@@ -2,9 +2,12 @@ package fr.sll.goodpoints;
 
 import java.time.Instant;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,37 +16,48 @@ public class History {
 
 	@Id
 	@GeneratedValue
-	private Long pointId;
+	private Long id;
 
-	private Long kidId;
+	@ManyToOne
+	@JoinColumn(name = "kidId", nullable = false)
+	private Kid kid;
 
+	@Column(name = "timestamp", nullable = false)
 	private Long timestamp;
-	private Long points;
+
+	@Column(name = "points", nullable = false)
+	private Integer points;
+
+	@Column(name = "goal", nullable = true)
 	private String reason;
 
-	public History(final Long kidId, final Long points, final String reason) {
+	public History() {
 		super();
-		this.kidId = kidId;
+	}
+
+	public History(final Kid kid, final Integer points, final String reason) {
+		super();
+		this.kid = kid;
 		this.points = points;
 		this.reason = reason;
 		this.timestamp = Instant.now().getEpochSecond();
 	}
 
 
-	public final Long getPointId() {
-		return pointId;
+	public final Long getId() {
+		return id;
 	}
 
-	public final void setPointId(final Long pointId) {
-		this.pointId = pointId;
+	public final void setId(final Long id) {
+		this.id = id;
 	}
 
-	public final Long getKidId() {
-		return kidId;
+	public final Kid getKid() {
+		return kid;
 	}
 
-	public final void setKidId(final Long kidId) {
-		this.kidId = kidId;
+	public final void setKid(final Kid kid) {
+		this.kid = kid;
 	}
 
 	public final Long getTimestamp() {
@@ -54,11 +68,11 @@ public class History {
 		this.timestamp = timestamp;
 	}
 
-	public final Long getPoints() {
+	public final Integer getPoints() {
 		return points;
 	}
 
-	public final void setPoints(final Long points) {
+	public final void setPoints(final Integer points) {
 		this.points = points;
 	}
 
@@ -72,7 +86,7 @@ public class History {
 
 	@Override
 	public String toString() {
-		return "Point [pointId=" + pointId + ", personId=" + kidId + ", timestamp=" + timestamp + ", points=" + points + ", reason=" + reason + "]";
+		return "Point [id=" + id + ", kid=" + kid + ", timestamp=" + timestamp + ", points=" + points + ", reason=" + reason + "]";
 	}
 
 

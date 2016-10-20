@@ -1,11 +1,16 @@
 package fr.sll.goodpoints;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,9 +32,13 @@ public class Kid implements Serializable {
 	@Column(name = "goal", nullable = false)
 	private Integer goal;
 
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "kid", orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<History> history;
+
 	public Kid() {
 		super();
-	}
+		this.setHistory(new HashSet<>());	}
 
 	public Kid(final String name, final Integer goal) {
 		this.name = name;
@@ -69,9 +78,25 @@ public class Kid implements Serializable {
 		this.goal = goal;
 	}
 
+	public final void addPoints(final Integer points, final String reason) {
+		this.score += points;
+		this.history.add(new History(this, points, reason));
+	}
+
 	@Override
 	public String toString() {
 		return "Kid [id=" + id + ", name=" + name + ", score=" + score + ", goal=" + goal + "]";
+	}
+
+	public Set<History> getHistory() {
+		if (this.history == null) {
+			return new HashSet<>();
+		}
+		return history;
+	}
+
+	public void setHistory(final Set<History> history) {
+		this.history = history;
 	}
 
 }
