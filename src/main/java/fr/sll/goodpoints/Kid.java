@@ -79,7 +79,13 @@ public class Kid implements Serializable {
 	}
 
 	public final void addPoints(final Integer points, final String reason) {
-		this.score += points;
+		if (points > 0 || Math.abs(points) < this.score ) {
+			this.score += points;
+		}
+		else {
+			this.score = 0;
+		}
+
 		this.history.add(new History(this, points, reason));
 	}
 

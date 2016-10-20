@@ -28,7 +28,10 @@ public class History {
 	@Column(name = "points", nullable = false)
 	private Integer points;
 
-	@Column(name = "goal", nullable = true)
+	@Column(name = "score", nullable = false)
+	private Integer score;
+
+	@Column(name = "reason", nullable = true)
 	private String reason;
 
 	public History() {
@@ -40,6 +43,7 @@ public class History {
 		this.kid = kid;
 		this.points = points;
 		this.reason = reason;
+		this.score = kid.getScore();
 		this.timestamp = Instant.now().getEpochSecond();
 	}
 
@@ -82,6 +86,14 @@ public class History {
 
 	public final void setReason(final String reason) {
 		this.reason = reason;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(final Integer score) {
+		this.score = score;
 	}
 
 	@Override

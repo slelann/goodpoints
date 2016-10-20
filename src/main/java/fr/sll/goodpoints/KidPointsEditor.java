@@ -104,14 +104,11 @@ public class KidPointsEditor extends VerticalLayout {
 
 
 	private void subtractPointsToKid(final Kid kid, final int points) {
-		Integer newScore = Math.max(0, kid.getScore() - points);
-		kid.setScore(newScore);
+		kid.addPoints(-points, "test");
 		repository.save(kid);
 	}
 
 	private void addPointsToKid(final Kid kid, final int points) {
-		Integer newScore = kid.getScore() + points;
-		//kid.setScore(newScore);
 		kid.addPoints(points, "test");
 		repository.save(kid);
 	}
